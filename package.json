@@ -1,6 +1,6 @@
 {
   "name": "jce-clipper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Web Clipper For Obsidian By Jnjsoft",
   "scripts": {
     "dev": "webpack --watch --env BROWSER=chrome --mode development",
