@@ -53,7 +53,7 @@ call npm version %mode%
 if errorlevel 1 goto :error
 
 REM 5. git push
-git push && git push --tags
+git push --follow-tags
 if errorlevel 1 goto :error
 
 REM 6. npm 배포
