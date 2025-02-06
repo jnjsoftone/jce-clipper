@@ -2,6 +2,9 @@
 # [syntax] ./publish.sh [patch|minor|major] [-m "commit message"]
 # default: patch, "chore: build for publish"
 
+# EXTENSION_DIR="{{EXTENSION_ROOT}}/{{name}}"
+EXTENSION_DIR="/Users/moon/JnJ-soft/Developments/jd-chromeExtensions/jce-clipper"
+
 mode="patch"
 commit_msg="chore: build for publish"
 
@@ -35,3 +38,5 @@ npm version $mode && \
 git push --follow-tags && \
 # 6. npm 배포
 npm publish
+# 7. chrome extension 배포
+cp -R dist/* "$EXTENSION_DIR/"

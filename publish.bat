@@ -2,6 +2,12 @@
 REM [syntax] publish [patch|minor|major] [-m "commit message"]
 REM default: patch, "chore: build for publish"
 
+:: set EXTENSION_DIR="{{EXTENSION_ROOT}}\{{name}}"
+set EXTENSION_DIR=C:\JnJ\Developments\jd-chromeExtensions\jce-clipper
+
+:: 플러그인 디렉토리가 없으면 생성
+if not exist "%EXTENSION_DIR%" mkdir "%EXTENSION_DIR%"
+
 SET mode=patch
 SET commit_msg=chore: build for publish
 
@@ -59,6 +65,12 @@ if errorlevel 1 goto :error
 REM 6. npm 배포
 call npm publish
 if errorlevel 1 goto :error
+
+goto :success
+
+:: 7. chrome extension 배포
+del /Q "%EXTENSION_DIR%\*"
+xcopy /E /Y "dist\*" "%EXTENSION_DIR%\"
 
 goto :success
 
