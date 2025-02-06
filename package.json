@@ -1,19 +1,10 @@
 {
-	"name": "obsidian-clipper",
-	"version": "0.10.9",
-	"description": "Official web clipper for Obsidian.",
+	"name": "jce-clipper",
+	"version": "0.0.1",
+	"description": "Web Clipper For Obsidian By Jnjsoft",
 	"scripts": {
-		"dev:chrome": "webpack --watch --env BROWSER=chrome --mode development",
-		"dev:firefox": "webpack --watch --env BROWSER=firefox --mode development",
-		"dev:safari": "webpack --watch --env BROWSER=safari --mode development",
-		"build:chrome": "webpack --env BROWSER=chrome --mode production",
-		"build:firefox": "webpack --env BROWSER=firefox --mode production",
-		"build:safari": "webpack --env BROWSER=safari --mode production",
-		"build": "npm run build:chrome && npm run build:firefox && npm run build:safari",
-		"dev": "npm run dev:chrome",
-		"update-locales": "ts-node --project scripts/tsconfig.json scripts/update-locales.ts",
-		"check-strings": "ts-node --project scripts/tsconfig.json scripts/check-unused-strings.ts",
-		"add-locale": "ts-node --project scripts/tsconfig.json scripts/add-locale.ts"
+		"dev": "webpack --watch --env BROWSER=chrome --mode development",
+		"build": "webpack --env BROWSER=chrome --mode production"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.0.270",

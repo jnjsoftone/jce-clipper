@@ -4,9 +4,9 @@ root = true
 [*]
 charset = utf-8
 insert_final_newline = true
-indent_style = tab
-indent_size = 4
-tab_width = 4
+indent_style = space
+indent_size = 2
+tab_width = 2
 ij_smart_tabs = true
 
 [{*.js, *.jsx}]
@@ -30,7 +30,7 @@ ij_typescript_import_sort_members = true
 ij_typescript_import_sort_module_name = true
 ij_typescript_import_prefer_absolute_path = true
 ij_typescript_else_on_new_line = true
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 2
 ij_typescript_use_double_quotes = false
 ij_typescript_force_quote_style = true
 ij_typescript_force_semicolon_style = true
