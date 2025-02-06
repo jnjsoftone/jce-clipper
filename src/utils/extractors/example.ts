@@ -5,7 +5,7 @@ export class ExampleExtractor extends BaseExtractor {
 
   constructor(document: Document, url: string) {
     super(document, url);
-    this.mainContent = document.querySelector('.main-content');
+    this.mainContent = document.querySelector('body');
   }
 
   canExtract(): boolean {
