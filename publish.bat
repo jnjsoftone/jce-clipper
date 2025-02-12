@@ -43,30 +43,28 @@ git pull
 if errorlevel 1 goto :error
 
 REM 2. 빌드
-@REM call yarn clean:win
-@REM if errorlevel 1 goto :error
 call npm run build
 if errorlevel 1 goto :error
 
-REM 3. git 변경사항 커밋
+REM 5. 변경사항 커밋
 git add .
 if errorlevel 1 goto :error
-git commit -m "%commit_msg%"
+git commit -m "chore: release version %version%"
 if errorlevel 1 goto :error
 
-REM 4. npm 버전 업데이트 (이때 자동으로 버전 태그가 생성됨)
-call npm version %mode%
-if errorlevel 1 goto :error
-
-REM 5. git push
+REM 6. git push
 git push --follow-tags
 if errorlevel 1 goto :error
 
-REM 6. npm 배포
-call npm publish
+REM 3. npm 버전 업데이트 (이때 자동으로 버전 태그가 생성됨)
+call npm version %mode%
 if errorlevel 1 goto :error
 
-goto :success
+REM 4. package.json의 버전을 manifest.json에 적용
+for /f "tokens=*" %%i in ('node -p "require('./package.json').version"') do set version=%%i
+node -e "const fs = require('fs'); const manifest = require('./dist/manifest.json'); manifest.version = '%version%'; fs.writeFileSync('./dist/manifest.json', JSON.stringify(manifest, null, 2) + '\n');"
+if errorlevel 1 goto :error
+
 
 :: 7. chrome extension 배포
 del /Q "%EXTENSION_DIR%\*"
