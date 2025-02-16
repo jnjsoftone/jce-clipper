@@ -8,6 +8,7 @@ import { ExampleExtractor } from './extractors/example';
 import { NaverBlogExtractor } from './extractors/naver-blog';
 import { DaumCafeExtractor } from './extractors/daum-cafe';
 import { ChatGPTExtractor } from './extractors/chatgpt';
+import { GenSparkExtractor } from './extractors/genspark';
 
 type ExtractorConstructor = new (document: Document, url: string, schemaOrgData?: any) => BaseExtractor;
 
@@ -65,6 +66,11 @@ export class ExtractorRegistry {
       ],
       extractor: ChatGPTExtractor
     });
+
+    this.register({
+      patterns: ['genspark.ai'],
+      extractor: GenSparkExtractor
+    });
   }
 
   static register(mapping: ExtractorMapping) {
@@ -113,3 +119,8 @@ export class ExtractorRegistry {
 
 // Initialize extractors
 ExtractorRegistry.initialize();
+
+export const extractorRegistry: ExtractorRegistry = {
+  // ... 기존 extractors
+  'genspark.ai': GenSparkExtractor,
+};
