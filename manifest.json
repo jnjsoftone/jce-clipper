@@ -1,0 +1,23 @@
+{
+  "permissions": [
+    "*://*.blog.naver.com/*",
+    "*://*.cafe.daum.net/*",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "*://*.blog.naver.com/*",
+    "*://*.cafe.daum.net/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [ "*://*.blog.naver.com/*" ],
+      "js": [ "utils/content-scripts/naver-blog.js" ],
+      "all_frames": true
+    },
+    {
+      "matches": [ "*://*.cafe.daum.net/*" ],
+      "js": [ "utils/content-scripts/daum-cafe.js" ],
+      "all_frames": true
+    }
+  ]
+}

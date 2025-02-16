@@ -5,6 +5,9 @@ import { RedditExtractor } from './extractors/reddit';
 import { TwitterExtractor } from './extractors/twitter';
 import { YoutubeExtractor } from './extractors/youtube';
 import { ExampleExtractor } from './extractors/example';
+import { NaverBlogExtractor } from './extractors/naver-blog';
+import { DaumCafeExtractor } from './extractors/daum-cafe';
+import { ChatGPTExtractor } from './extractors/chatgpt';
 
 type ExtractorConstructor = new (document: Document, url: string, schemaOrgData?: any) => BaseExtractor;
 
@@ -37,6 +40,30 @@ export class ExtractorRegistry {
     this.register({
       patterns: ['example.com', 'www.example.com', /example\.com\/.*/],
       extractor: ExampleExtractor,
+    });
+
+    this.register({
+      patterns: [
+        'blog.naver.com',
+        /blog\.naver\.com\/.*\/.*$/
+      ],
+      extractor: NaverBlogExtractor
+    });
+
+    this.register({
+      patterns: [
+        'cafe.daum.net',
+        /cafe\.daum\.net\/.*/
+      ],
+      extractor: DaumCafeExtractor
+    });
+
+    this.register({
+      patterns: [
+        'chat.openai.com',
+        /chat\.openai\.com\/c\/.*/
+      ],
+      extractor: ChatGPTExtractor
     });
   }
 

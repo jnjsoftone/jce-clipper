@@ -3,7 +3,7 @@
 # default: patch, "chore: build for publish"
 
 # EXTENSION_DIR="{{EXTENSION_ROOT}}/{{name}}"
-EXTENSION_DIR="/Users/moon/JnJ-soft/Developments/jd-chromeExtensions/jce-clipper"
+EXTENSION_DIR="/Users/moon/JnJ/Developments/jd-chromeExtensions/jce-clipper"
 
 mode="patch"
 commit_msg="chore: build for publish"
