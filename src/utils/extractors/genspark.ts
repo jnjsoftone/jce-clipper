@@ -7,12 +7,8 @@ export class GenSparkExtractor extends BaseExtractor {
     super(document, url);
     console.log('GenSparkExtractor constructor called');
     
-    // 메인 컨테이너 찾기 (여러 선택자 시도)
-    this.mainContent = 
-      document.querySelector('div[data-v-d6aa716d]') ||
-      document.querySelector('div[class*="agent-page"]') ||
-      document.querySelector('div[class*="flex flex-col"]');
-
+    // 메인 컨테이너 찾기
+    this.mainContent = document.querySelector('div.main');
     console.log('Found main content:', !!this.mainContent);
     
     // 페이지가 완전히 로드될 때까지 대기
@@ -24,12 +20,7 @@ export class GenSparkExtractor extends BaseExtractor {
   }
 
   private findContent(document: Document) {
-    // 메인 컨테이너 다시 찾기
-    this.mainContent = 
-      document.querySelector('div[data-v-d6aa716d]') ||
-      document.querySelector('div[class*="agent-page"]') ||
-      document.querySelector('div[class*="flex flex-col"]');
-    
+    this.mainContent = document.querySelector('div.main');
     console.log('Found main content after load:', !!this.mainContent);
   }
 
@@ -43,16 +34,34 @@ export class GenSparkExtractor extends BaseExtractor {
     }
 
     // 이미지 찾기 (여러 선택자 시도)
-    const images = Array.from(document.querySelectorAll('img')).filter(img => {
-      const src = img.getAttribute('src');
-      return src && (
-        src.includes('genspark') || 
-        img.closest('.n-image-container') || 
-        img.closest('.n-image')
-      );
-    });
+    let images: Element[] = [];
+    
+    // 1. n-image-preview 클래스를 가진 이미지
+    const previewImages = document.querySelectorAll('.n-image-preview img');
+    if (previewImages.length > 0) {
+      images = Array.from(previewImages);
+      console.log('Found preview images:', images.length);
+    }
+    
+    // 2. n-image 클래스를 가진 이미지
+    if (images.length === 0) {
+      const nImages = document.querySelectorAll('.n-image img');
+      if (nImages.length > 0) {
+        images = Array.from(nImages);
+        console.log('Found n-image images:', images.length);
+      }
+    }
+    
+    // 3. src에 genspark가 포함된 이미지
+    if (images.length === 0) {
+      const gensparkImages = document.querySelectorAll('img[src*="genspark"]');
+      if (gensparkImages.length > 0) {
+        images = Array.from(gensparkImages);
+        console.log('Found genspark images:', images.length);
+      }
+    }
 
-    console.log('Found images:', images.length);
+    console.log('Total images found:', images.length);
 
     // 이미지 HTML 생성
     const imageHtml = images.map(img => {
@@ -62,17 +71,24 @@ export class GenSparkExtractor extends BaseExtractor {
       </div>`;
     }).join('\n');
 
-    // 프롬프트 텍스트 찾기 (여러 선택자 시도)
+    // 프롬프트 텍스트 찾기
     const textarea = document.querySelector('textarea[name="query"]') as HTMLTextAreaElement;
     const searchInput = document.querySelector('div[class*="search-input"]');
     const inputTextarea = document.querySelector('div[class*="input"] textarea');
     
     let promptText = '프롬프트를 찾을 수 없습니다.';
-    if (textarea?.value) promptText = textarea.value;
-    else if (searchInput?.textContent) promptText = searchInput.textContent.trim();
-    else if (inputTextarea?.textContent) promptText = inputTextarea.textContent.trim();
+    if (textarea?.value) {
+      promptText = textarea.value;
+      console.log('Found prompt in textarea');
+    } else if (searchInput?.textContent) {
+      promptText = searchInput.textContent.trim();
+      console.log('Found prompt in search input');
+    } else if (inputTextarea?.textContent) {
+      promptText = inputTextarea.textContent.trim();
+      console.log('Found prompt in input textarea');
+    }
 
-    console.log('Found prompt:', promptText);
+    console.log('Final prompt:', promptText);
 
     // HTML 컨텐츠 생성
     const content = `
